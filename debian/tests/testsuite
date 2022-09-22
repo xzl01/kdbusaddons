@@ -1,0 +1,2 @@
+#!/bin/sh
+xvfb-run -a dbus-run-session -- dh_auto_test
