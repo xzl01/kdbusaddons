@@ -1,4 +1,3 @@
-/usr/include/KF5/kdbusaddons_version.h
 usr/include/KF5/KDBusAddons/
 usr/lib/*/cmake/KF5DBusAddons/
 usr/lib/*/libKF5DBusAddons.so

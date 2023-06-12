@@ -11,9 +11,14 @@
 
 #include <QProcessEnvironment>
 
+#include <memory>
+
 class QString;
+class UpdateLaunchEnvironmentJobPrivate;
 
 /**
+ * @class UpdateLaunchEnvironmentJob updatelaunchenvironmentjob.h <UpdateLaunchEnvironmentJob>
+ *
  * Job for updating the launch environment.
  *
  * This job adds or updates an environment variable in process environment that will be used
@@ -43,6 +48,7 @@ Q_SIGNALS:
 
 private:
     void start();
-    class Private;
-    Private *const d;
+
+private:
+    std::unique_ptr<UpdateLaunchEnvironmentJobPrivate> const d;
 };
