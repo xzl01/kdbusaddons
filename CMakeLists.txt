@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(KF_VERSION "5.90.0") # handled by release scripts
+set(KF_VERSION "5.103.0") # handled by release scripts
 project(KDBusAddons VERSION ${KF_VERSION})
 
 include(FeatureSummary)
-find_package(ECM 5.90.0  NO_MODULE)
+find_package(ECM 5.103.0  NO_MODULE)
 set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://commits.kde.org/extra-cmake-modules")
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
@@ -16,6 +16,7 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 include(KDEGitCommitHooks)
 include(ECMQtDeclareLoggingCategory)
+include(ECMDeprecationSettings)
 
 set(REQUIRED_QT_VERSION 5.15.2)
 find_package(Qt${QT_MAJOR_VERSION}DBus ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
@@ -42,7 +43,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KDBUSADDONS
                         SOVERSION 5)
 
 # qtx11extras_p.h is in Qt6Gui
-if(TARGET Qt5::X11Extras OR TARGET Qt6::Gui)
+if(TARGET Qt5::X11Extras OR (TARGET Qt6::Gui AND NOT WIN32))
     set(HAVE_X11 TRUE)
 else()
     set(HAVE_X11 FALSE)
@@ -53,8 +54,12 @@ set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprec
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-ecm_install_po_files_as_qm(po)
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
+ecm_set_disabled_deprecation_versions(
+    QT 5.15.2
+)
+
+ecm_install_po_files_as_qm(poqm)
+
 add_subdirectory(src)
 if (BUILD_TESTING)
     add_subdirectory(autotests)
@@ -88,7 +93,7 @@ install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/KF5DBusAddonsConfig.cmake"
 
 install(EXPORT KF5DBusAddonsTargets  DESTINATION "${CMAKECONFIG_INSTALL_DIR}"  FILE KF5DBusAddonsTargets.cmake  NAMESPACE KF5:: )
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kdbusaddons_version.h  DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}  COMPONENT Devel )
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kdbusaddons_version.h  DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KDBusAddons COMPONENT Devel)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

@@ -16,10 +16,10 @@
 
 #include "kdbusaddons_debug.h"
 
-class Q_DECL_HIDDEN UpdateLaunchEnvironmentJob::Private
+class UpdateLaunchEnvironmentJobPrivate
 {
 public:
-    explicit Private(UpdateLaunchEnvironmentJob *q);
+    explicit UpdateLaunchEnvironmentJobPrivate(UpdateLaunchEnvironmentJob *q);
     void monitorReply(const QDBusPendingReply<> &reply);
 
     static bool isPosixName(const QString &name);
@@ -30,12 +30,12 @@ public:
     int pendingReplies = 0;
 };
 
-UpdateLaunchEnvironmentJob::Private::Private(UpdateLaunchEnvironmentJob *q)
+UpdateLaunchEnvironmentJobPrivate::UpdateLaunchEnvironmentJobPrivate(UpdateLaunchEnvironmentJob *q)
     : q(q)
 {
 }
 
-void UpdateLaunchEnvironmentJob::Private::monitorReply(const QDBusPendingReply<> &reply)
+void UpdateLaunchEnvironmentJobPrivate::monitorReply(const QDBusPendingReply<> &reply)
 {
     ++pendingReplies;
 
@@ -51,17 +51,15 @@ void UpdateLaunchEnvironmentJob::Private::monitorReply(const QDBusPendingReply<>
     });
 }
 
+// KF6 TODO: add K-prefix to class name
 UpdateLaunchEnvironmentJob::UpdateLaunchEnvironmentJob(const QProcessEnvironment &environment)
-    : d(new Private(this))
+    : d(new UpdateLaunchEnvironmentJobPrivate(this))
 {
     d->environment = environment;
     QTimer::singleShot(0, this, &UpdateLaunchEnvironmentJob::start);
 }
 
-UpdateLaunchEnvironmentJob::~UpdateLaunchEnvironmentJob()
-{
-    delete d;
-}
+UpdateLaunchEnvironmentJob::~UpdateLaunchEnvironmentJob() = default;
 
 void UpdateLaunchEnvironmentJob::start()
 {
@@ -70,7 +68,7 @@ void UpdateLaunchEnvironmentJob::start()
     QStringList systemdUpdates;
 
     for (const auto &varName : d->environment.keys()) {
-        if (!Private::isPosixName(varName)) {
+        if (!UpdateLaunchEnvironmentJobPrivate::isPosixName(varName)) {
             qCWarning(KDBUSADDONS_LOG) << "Skipping syncing of environment variable " << varName << "as name contains unsupported characters";
             continue;
         }
@@ -101,7 +99,7 @@ void UpdateLaunchEnvironmentJob::start()
         // Systemd has stricter parsing of valid environment variables
         // https://github.com/systemd/systemd/issues/16704
         // validate here
-        if (!Private::isSystemdApprovedValue(value)) {
+        if (!UpdateLaunchEnvironmentJobPrivate::isSystemdApprovedValue(value)) {
             qCWarning(KDBUSADDONS_LOG) << "Skipping syncing of environment variable " << varName << "as value contains unsupported characters";
             continue;
         }
@@ -130,7 +128,7 @@ void UpdateLaunchEnvironmentJob::start()
     d->monitorReply(systemdActivationReply);
 }
 
-bool UpdateLaunchEnvironmentJob::Private::isPosixName(const QString &name)
+bool UpdateLaunchEnvironmentJobPrivate::isPosixName(const QString &name)
 {
     // Posix says characters like % should be 'tolerated', but it gives issues in practice.
     // https://bugzilla.redhat.com/show_bug.cgi?id=1754395
@@ -149,7 +147,7 @@ bool UpdateLaunchEnvironmentJob::Private::isPosixName(const QString &name)
     return !first;
 }
 
-bool UpdateLaunchEnvironmentJob::Private::isSystemdApprovedValue(const QString &value)
+bool UpdateLaunchEnvironmentJobPrivate::isSystemdApprovedValue(const QString &value)
 {
     // systemd code checks that a value contains no control characters except \n \t
     // effectively copied from systemd's string_has_cc
