@@ -16,17 +16,13 @@ libKF5DBusAddons.so.5 libkf5dbusaddons5 #MINVER#
  _ZN10KDEDModuleD1Ev@Base 4.97.0
  _ZN10KDEDModuleD2Ev@Base 4.97.0
  _ZN12KDBusService10unregisterEv@Base 4.97.0
- _ZN12KDBusService11CommandLineERK11QStringListRK7QStringRK4QMapIS3_8QVariantE@Base 4.99.0
  _ZN12KDBusService11qt_metacallEN11QMetaObject4CallEiPPv@Base 4.97.0
  _ZN12KDBusService11qt_metacastEPKc@Base 4.97.0
  _ZN12KDBusService12setExitValueEi@Base 4.97.0
  _ZN12KDBusService13openRequestedERK5QListI4QUrlE@Base 4.97.0
- _ZN12KDBusService14ActivateActionERK7QStringRK5QListI8QVariantERK4QMapIS0_S4_E@Base 4.97.0
  _ZN12KDBusService16staticMetaObjectE@Base 4.97.0
  _ZN12KDBusService17activateRequestedERK11QStringListRK7QString@Base 4.99.0
  _ZN12KDBusService23activateActionRequestedERK7QStringRK8QVariant@Base 4.97.0
- _ZN12KDBusService4OpenERK11QStringListRK4QMapI7QString8QVariantE@Base 4.97.0
- _ZN12KDBusService8ActivateERK4QMapI7QString8QVariantE@Base 4.97.0
  _ZN12KDBusServiceC1E6QFlagsINS_13StartupOptionEEP7QObject@Base 4.97.0
  _ZN12KDBusServiceC2E6QFlagsINS_13StartupOptionEEP7QObject@Base 4.97.0
  _ZN12KDBusServiceD0Ev@Base 4.97.0
@@ -49,7 +45,6 @@ libKF5DBusAddons.so.5 libkf5dbusaddons5 #MINVER#
  _ZN26UpdateLaunchEnvironmentJob11qt_metacallEN11QMetaObject4CallEiPPv@Base 5.90.0
  _ZN26UpdateLaunchEnvironmentJob11qt_metacastEPKc@Base 5.90.0
  _ZN26UpdateLaunchEnvironmentJob16staticMetaObjectE@Base 5.90.0
- _ZN26UpdateLaunchEnvironmentJob5startEv@Base 5.90.0
  _ZN26UpdateLaunchEnvironmentJob8finishedEv@Base 5.90.0
  _ZN26UpdateLaunchEnvironmentJobC1ERK19QProcessEnvironment@Base 5.90.0
  _ZN26UpdateLaunchEnvironmentJobC2ERK19QProcessEnvironment@Base 5.90.0
